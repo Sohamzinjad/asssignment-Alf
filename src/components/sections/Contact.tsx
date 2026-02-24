@@ -1,11 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Send, Loader2, CheckCircle2 } from "lucide-react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function Contact() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
+    const containerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        if (!containerRef.current) return;
+
+        const ctx = gsap.context(() => {
+            gsap.fromTo(
+                ".contact-anim",
+                { opacity: 0, y: 30 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    stagger: 0.1,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: containerRef.current,
+                        start: "top 70%",
+                    }
+                }
+            );
+        }, containerRef);
+
+        return () => ctx.revert();
+    }, []);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -40,24 +69,24 @@ export default function Contact() {
     };
 
     return (
-        <section className="relative w-full py-32 bg-zinc-950 flex justify-center items-center overflow-hidden">
+        <section ref={containerRef} className="relative w-full py-32 bg-zinc-950 flex justify-center items-center overflow-hidden">
             {/* Background visual element */}
             <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
                 <div className="absolute top-[80%] left-[50%] -translate-x-[50%] w-[60vw] h-[40vw] bg-cyan-600/20 rounded-t-full blur-[120px]" />
             </div>
 
             <div className="relative z-10 w-full max-w-2xl px-6">
-                <div className="text-center mb-16">
+                <div className="text-center mb-16 contact-anim">
                     <h2 className="text-4xl md:text-5xl font-black uppercase text-zinc-100 tracking-tighter mb-4">
                         Get in <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Touch</span>
                     </h2>
                     <p className="text-zinc-400 font-light text-lg">
-                        Have a project in mind? Let's talk.
+                        Have a project in mind? Let&apos;s talk.
                     </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-                    <div className="group relative">
+                    <div className="group relative contact-anim">
                         <input
                             type="text"
                             name="name"
@@ -68,7 +97,7 @@ export default function Contact() {
                         <div className="absolute inset-0 -z-10 bg-cyan-500/0 rounded-xl blur-md transition-all duration-300 peer-focus:bg-cyan-500/20" />
                     </div>
 
-                    <div className="group relative">
+                    <div className="group relative contact-anim">
                         <input
                             type="email"
                             name="email"
@@ -79,7 +108,7 @@ export default function Contact() {
                         <div className="absolute inset-0 -z-10 bg-purple-500/0 rounded-xl blur-md transition-all duration-300 peer-focus:bg-purple-500/20" />
                     </div>
 
-                    <div className="group relative">
+                    <div className="group relative contact-anim">
                         <textarea
                             name="message"
                             required
@@ -93,7 +122,7 @@ export default function Contact() {
                     <button
                         type="submit"
                         disabled={loading || success}
-                        className="group relative w-full bg-zinc-100 text-zinc-950 font-bold uppercase tracking-widest py-4 rounded-xl overflow-hidden hover:bg-white transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+                        className="group relative w-full bg-zinc-100 text-zinc-950 font-bold uppercase tracking-widest py-4 rounded-xl overflow-hidden hover:bg-white active:scale-95 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed contact-anim"
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-400 to-emerald-400 opacity-0 group-hover:opacity-10 transition-opacity duration-500" />
                         <span className="relative flex items-center justify-center gap-2 h-6">

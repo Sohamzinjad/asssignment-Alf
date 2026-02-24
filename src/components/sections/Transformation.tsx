@@ -56,7 +56,7 @@ export default function Transformation() {
 
             gsap.to(pathRef.current, {
                 strokeDashoffset: 0,
-                ease: "none",
+                ease: "power1.inOut",
                 scrollTrigger: {
                     trigger: containerRef.current,
                     start: "top center",
@@ -67,14 +67,14 @@ export default function Transformation() {
 
 
             const nodeElements = gsap.utils.toArray<HTMLElement>('.timeline-node');
-            nodeElements.forEach((node, i) => {
+            nodeElements.forEach((node) => {
                 gsap.fromTo(node,
                     { scale: 0, opacity: 0 },
                     {
                         scale: 1,
                         opacity: 1,
                         duration: 0.8,
-                        ease: "back.out(2)",
+                        ease: "back.out(1.5)",
                         scrollTrigger: {
                             trigger: node,
                             start: "top center+=100",
@@ -136,7 +136,7 @@ export default function Transformation() {
 
 
                                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20">
-                                    <div className={`w-16 h-16 rounded-full flex items-center justify-center bg-zinc-950 border border-zinc-700 relative group glow-${node.color}`}>
+                                    <div className={`w-16 h-16 rounded-full flex items-center justify-center bg-zinc-950 border border-zinc-700 relative group glow-${node.color} hover:scale-110 transition-transform duration-300 cursor-pointer`}>
                                         <div className={`absolute inset-0 rounded-full bg-${node.color}-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
                                         <node.icon className={`w-6 h-6 text-${node.color}-400 relative z-10`} />
                                     </div>

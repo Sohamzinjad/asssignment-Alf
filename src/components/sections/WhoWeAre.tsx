@@ -15,7 +15,6 @@ export default function WhoWeAre() {
         if (!containerRef.current || !horizontalRef.current || !pinRef.current) return;
 
         const panels = gsap.utils.toArray<HTMLElement>('.story-panel');
-        const totalWidth = horizontalRef.current.scrollWidth - window.innerWidth;
 
         // This context is no longer needed since we are using ctx2's cleaner approach below.
 
@@ -29,9 +28,25 @@ export default function WhoWeAre() {
                 }
             });
 
-            panels.forEach((panel, i) => {
+            panels.forEach((panel) => {
                 const img = panel.querySelector('.story-img');
-                const text = panel.querySelector('.story-text');
+
+                if (img) {
+                    gsap.fromTo(img,
+                        { x: "-10%" },
+                        {
+                            x: "10%",
+                            ease: "none",
+                            scrollTrigger: {
+                                trigger: panel,
+                                containerAnimation: tl,
+                                start: "left right",
+                                end: "right left",
+                                scrub: true
+                            }
+                        }
+                    );
+                }
             });
 
         }, containerRef);
@@ -84,10 +99,10 @@ export default function WhoWeAre() {
 
                         <div className="relative z-10 w-full md:w-1/2 h-[40vh] md:h-[60vh] max-w-2xl group overflow-hidden rounded-2xl border border-zinc-800">
                             <div
-                                className="story-img w-full h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
+                                className="story-img absolute top-0 -left-[20%] w-[140%] h-full bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
                                 style={{ backgroundImage: `url(https://${story.img})` }}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-60" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/20 to-transparent opacity-60 z-10 pointer-events-none" />
                         </div>
                     </div>
                 ))}

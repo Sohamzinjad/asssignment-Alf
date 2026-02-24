@@ -59,6 +59,15 @@ export default function Hero() {
                 stagger: 0.5,
             });
 
+            gsap.to(".hero-content", {
+                y: "-10px",
+                duration: 2.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "sine.inOut",
+                delay: 2
+            });
+
         }, containerRef);
 
         return () => ctx.revert();
@@ -80,14 +89,14 @@ export default function Hero() {
                 ref={bgRef}
                 className="absolute inset-0 z-0 opacity-0 pointer-events-none"
             >
-                <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] bg-cyan-700/20 rounded-full blur-[100px] glow-orb mix-blend-screen" />
-                <div className="absolute bottom-[20%] right-[10%] w-[50vw] h-[50vw] bg-purple-700/20 rounded-full blur-[120px] glow-orb mix-blend-screen" />
-                <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[30vw] h-[30vw] bg-emerald-700/10 rounded-full blur-[80px] glow-orb mix-blend-screen" />
+                <div className="absolute top-[20%] left-[10%] w-[40vw] h-[40vw] bg-cyan-700/30 rounded-full blur-[120px] glow-orb mix-blend-screen" />
+                <div className="absolute bottom-[20%] right-[10%] w-[50vw] h-[50vw] bg-purple-700/30 rounded-full blur-[140px] glow-orb mix-blend-screen" />
+                <div className="absolute top-[40%] left-[50%] -translate-x-1/2 w-[30vw] h-[30vw] bg-emerald-700/20 rounded-full blur-[100px] glow-orb mix-blend-screen" />
 
                 <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:50px_50px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_20%,transparent_100%)]" />
             </div>
 
-            <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto">
+            <div className="relative z-10 flex flex-col items-center text-center px-4 max-w-5xl mx-auto hero-content">
                 <h1 className="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-2 flex flex-col items-center">
                     <div ref={title1Ref} className="text-glow flex gap-[0.3em] overflow-visible">
                         {"Architecture for".split(" ").map((word, i) => (
